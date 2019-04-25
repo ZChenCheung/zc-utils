@@ -18,7 +18,16 @@ public abstract class ReadProperties {
 	 * @param value
 	 */
 	public abstract void dealKeyAndValue(String key, String value);
-	
+
+	/**
+	 * 根据文件的绝对路径解析
+	 * @param absolutePath
+	 * @throws IOException
+	 */
+	public void readFile(String absolutePath) throws IOException {
+		read(new File(absolutePath));
+	}
+
 	/**
 	 * 根据包路径解析
 	 * @param packagePath
@@ -27,15 +36,6 @@ public abstract class ReadProperties {
 	public void read(String packagePath) throws IOException {
 		InputStream is = this.getClass().getResourceAsStream(packagePath);
 		read(is);
-	}
-	
-	/**
-	 * 根据文件的绝对路径解析
-	 * @param absolutePath
-	 * @throws IOException
-	 */
-	public void readFile(String absolutePath) throws IOException {
-		read(new File(absolutePath));
 	}
 	
 	/**
