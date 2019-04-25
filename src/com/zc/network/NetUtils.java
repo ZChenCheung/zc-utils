@@ -1,4 +1,4 @@
-package com.zc.network;
+package com.zc.util.network;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -9,28 +9,28 @@ import java.util.Random;
 import java.util.regex.Pattern;
 
 public class NetUtils {
-	
-	public static final String LOCALHOST = "127.0.0.1";
-	
-	public static final String ANYHOST = "0.0.0.0";
-	
-	private static final Random RANDOM = new Random(System.currentTimeMillis());
-	
-	public static final int MIN_PORT = 0;
-	
-	public static final int MAX_PORT = 65535;
-	
-	private static volatile InetAddress LOCAL_ADDRESS = null;
-	
-	private static final Pattern IP_PATTERN = Pattern.compile("\\d{1,3}(\\.\\d{1,3}){3,5}$");
-	
-	private NetUtils() {}
 
-	public static int getRandomPort() {
-	    return 30000 + RANDOM.nextInt(10000);
-	}
-	
-	private static boolean isValidAddress(InetAddress inetAddress) {
+    public static final String LOCALHOST = "127.0.0.1";
+
+    public static final String ANYHOST = "0.0.0.0";
+
+    private static final Random RANDOM = new Random(System.currentTimeMillis());
+
+    public static final int MIN_PORT = 0;
+
+    public static final int MAX_PORT = 65535;
+
+    private static volatile InetAddress LOCAL_ADDRESS = null;
+
+    private static final Pattern IP_PATTERN = Pattern.compile("\\d{1,3}(\\.\\d{1,3}){3,5}$");
+
+    private NetUtils() {}
+
+    public static int getRandomPort() {
+        return 30000 + RANDOM.nextInt(10000);
+    }
+
+    private static boolean isValidAddress(InetAddress inetAddress) {
         if (inetAddress != null && !inetAddress.isLoopbackAddress()) {
             String name = inetAddress.getHostAddress();
             return name != null
@@ -41,15 +41,15 @@ public class NetUtils {
             return false;
         }
     }
-	
-	private static final Pattern LOCAL_IP_PATTERN = Pattern.compile("127(\\.\\d{1,3}){3}$");
-	
-	public static boolean isInvalidLocalHost(String host) {
-		return host == null || host.length() == 0 || host.equalsIgnoreCase("localhost")
-				|| host.equals("0.0.0.0") || LOCAL_IP_PATTERN.matcher(host).matches();
-	}
-	
-	public static InetAddress getLocalAddress() {
+
+    private static final Pattern LOCAL_IP_PATTERN = Pattern.compile("127(\\.\\d{1,3}){3}$");
+
+    public static boolean isInvalidLocalHost(String host) {
+        return host == null || host.length() == 0 || host.equalsIgnoreCase("localhost")
+                || host.equals("0.0.0.0") || LOCAL_IP_PATTERN.matcher(host).matches();
+    }
+
+    public static InetAddress getLocalAddress() {
         if (LOCAL_ADDRESS != null) {
             return LOCAL_ADDRESS;
         } else {
@@ -58,13 +58,13 @@ public class NetUtils {
             return localAddress;
         }
     }
-	
-	public static String getLocalHost() {
+
+    public static String getLocalHost() {
         InetAddress address = getLocalAddress();
         return address == null ? "127.0.0.1" : address.getHostAddress();
     }
-	
-	private static InetAddress innerGetLocalAddress() {
+
+    private static InetAddress innerGetLocalAddress() {
         InetAddress localAddress = null;
 
         try {
