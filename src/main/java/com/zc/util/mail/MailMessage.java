@@ -4,13 +4,13 @@ public class MailMessage {
 
     private String tagEmail;
 
-    private String subJect;
+    private String subject;
 
     private String content;
 
-    public MailMessage(String tagEmail, String subJect, String content) {
+    public MailMessage(String tagEmail, String subject, String content) {
         this.tagEmail = tagEmail;
-        this.subJect = subJect;
+        this.subject = subject;
         this.content = content;
     }
 
@@ -19,7 +19,7 @@ public class MailMessage {
     }
 
     public String getSubJect() {
-        return subJect;
+        return subject;
     }
 
     public String getContent() {
@@ -30,7 +30,7 @@ public class MailMessage {
     public String toString() {
         return "MailMessage{" +
                 "tagEmail='" + tagEmail + '\'' +
-                ", subJect='" + subJect + '\'' +
+                ", subJect='" + subject + '\'' +
                 ", content='" + content + '\'' +
                 '}';
     }

@@ -26,7 +26,7 @@ public class MailSender {
 
     public void sendTo(MailSession mailSession, MailMessage mailMessage) {
         if (mailSession == null) {
-            String msg = "Mail sendTo(), mailSession can not null!";
+            String msg = "MailSender sendTo(), mailSession can not null!";
             if (LOGGER.isErrorEnabled()) {
                 LOGGER.error(msg);
             }
@@ -44,7 +44,8 @@ public class MailSender {
                 try {
                     message.setFrom(new InternetAddress(mailSession.getSrcEmail()));
                     // 设置接收人
-                    message.addRecipient(Message.RecipientType.TO, new InternetAddress(mailMessage.getTagEmail()));
+                    message.addRecipient(Message.RecipientType.TO,
+                            new InternetAddress(mailMessage.getTagEmail()));
                     // 设置邮件主题
                     message.setSubject(mailMessage.getSubJect());
                     // 设置邮件内容
@@ -53,7 +54,8 @@ public class MailSender {
                     Transport.send(message);
 
                     if (LOGGER.isInfoEnabled()) {
-                        LOGGER.info("MailUtils send email["
+                        LOGGER.info("MailSender [thread:" + Thread.currentThread().getName()
+                                + "] send email["
                                 + "from: " + mailSession.getSrcEmail()
                                 + ", to: " + mailMessage.getTagEmail()
                                 + ", subject: " + mailMessage.getSubJect()
@@ -70,7 +72,7 @@ public class MailSender {
 
     public void sendTo(MailMessage mailMessage) {
         if (mailMessage == null) {
-            String msg = "Mail sendTo(), mailMessage not defined!";
+            String msg = "MailSender sendTo(), mailMessage not defined!";
             if (LOGGER.isErrorEnabled()) {
                 LOGGER.error(msg);
             }
@@ -85,7 +87,7 @@ public class MailSender {
 
     public void addSender(MailSession mailSession) {
         if (mailSession == null) {
-            String msg = "Mail addSender(), sender not defined!";
+            String msg = "MailSender addSender(), sender not defined!";
             if (LOGGER.isErrorEnabled()) {
                 LOGGER.error(msg);
             }
@@ -95,14 +97,14 @@ public class MailSender {
         queue.add(mailSession);
 
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("MailUtils add sender:[" + mailSession + "]");
+            LOGGER.info("MailSender add sender:[" + mailSession + "]");
         }
     }
 
     public MailSession removeSender(MailSession mailSession) {
         if (queue.remove(mailSession)) {
             if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("MailUtils remove sender:[" + mailSession + "]");
+                LOGGER.info("MailSender remove sender:[" + mailSession + "]");
             }
         }
 

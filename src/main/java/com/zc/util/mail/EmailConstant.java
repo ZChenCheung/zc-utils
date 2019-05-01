@@ -5,7 +5,13 @@ package com.zc.util.mail;
  * @date 2019/5/1
  */
 public interface EmailConstant {
+    /**
+     * qq邮件服务器
+     */
     String HOST_QQ = "smtp.qq.com";
+    /**
+     * 网易163邮件服务器
+     */
     String HOST_163 = "smtp.163.com";
     String MAIL_HOST = "mail.smtp.host";
     String MAIL_AUTH = "mail.smtp.auth";
