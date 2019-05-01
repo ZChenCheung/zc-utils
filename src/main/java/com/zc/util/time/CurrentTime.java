@@ -1,4 +1,4 @@
-package com.zc.time;
+package com.zc.util.time;
 
 public class CurrentTime {
 

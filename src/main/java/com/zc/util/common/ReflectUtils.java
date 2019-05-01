@@ -1,4 +1,4 @@
-package com.zc.common;
+package com.zc.util.common;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.GenericArrayType;

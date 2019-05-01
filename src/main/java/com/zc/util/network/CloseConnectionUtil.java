@@ -1,4 +1,4 @@
-package com.zc.network;
+package com.zc.util.network;
 
 import java.io.IOException;
 import java.io.InputStream;

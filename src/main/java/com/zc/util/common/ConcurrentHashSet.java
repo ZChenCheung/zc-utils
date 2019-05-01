@@ -1,4 +1,4 @@
-package com.zc.common;
+package com.zc.util.common;
 
 import java.io.Serializable;
 import java.util.AbstractSet;

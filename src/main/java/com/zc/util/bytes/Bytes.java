@@ -1,4 +1,4 @@
-package com.zc.bytes;
+package com.zc.util.bytes;
 
 public class Bytes {
 

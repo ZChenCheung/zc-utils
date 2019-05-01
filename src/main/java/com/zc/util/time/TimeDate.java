@@ -1,4 +1,4 @@
-package com.zc.time;
+package com.zc.util.time;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

@@ -1,4 +1,4 @@
-package com.zc.reader;
+package com.zc.util.reader;
 
 import java.io.File;
 import java.io.FileFilter;
