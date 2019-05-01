@@ -63,7 +63,12 @@ public class MailSender {
                                 + "]");
                     }
                 } catch (MessagingException e) {
-                    e.printStackTrace();
+                    String msg = "MailSender send Exception, case: " + e.getMessage();
+
+                    if (LOGGER.isErrorEnabled()) {
+                        LOGGER.error(msg, e);
+                    }
+                    throw new IllegalStateException(msg, e);
                 }
 
             }
