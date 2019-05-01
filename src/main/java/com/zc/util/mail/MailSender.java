@@ -53,7 +53,7 @@ public class MailSender {
                     Transport.send(message);
 
                     if (LOGGER.isInfoEnabled()) {
-                        LOGGER.info("MailUtils end email["
+                        LOGGER.info("MailUtils send email["
                                 + "from: " + mailSession.getSrcEmail()
                                 + ", to: " + mailMessage.getTagEmail()
                                 + ", subject: " + mailMessage.getSubJect()
