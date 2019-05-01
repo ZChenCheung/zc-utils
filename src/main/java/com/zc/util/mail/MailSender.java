@@ -12,15 +12,15 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
 
-public class MailUtils {
+public class MailSender {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MailUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MailSender.class);
 
     private final Queue<MailSession> queue = new ConcurrentLinkedQueue<>();
 
     private final Executor executor;
 
-    public MailUtils(Executor executor) {
+    public MailSender(Executor executor) {
         this.executor = executor;
     }
 
