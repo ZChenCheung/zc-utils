@@ -6,6 +6,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.Date;
 
+import static com.zc.util.common.StringParser.parse;
+
 public class ReflectUtils {
 
     private ReflectUtils() { }
@@ -19,7 +21,7 @@ public class ReflectUtils {
         try {
             return Class.forName(className);
         } catch (ClassNotFoundException e) {
-            throw  new IllegalArgumentException("Not found class" + className + ", case:" + e.getMessage(), e);
+            throw  new IllegalArgumentException(parse("Not found class{}, case:{}", className, e.getMessage()), e);
         }
     }
 
@@ -72,7 +74,7 @@ public class ReflectUtils {
                         : (Class<?>) genericClass;
             }
         } catch (Throwable e) {
-            throw new IllegalArgumentException(clazz.getName() + " generic type undefined!", e);
+            throw new IllegalArgumentException(parse("{} generic type undefined!", clazz.getName()), e);
         }
     }
 
@@ -177,7 +179,7 @@ public class ReflectUtils {
                 }
             }
 
-            return clazz == object.getClass() ? true : clazz.isInstance(object);
+            return clazz == object.getClass() || clazz.isInstance(object);
         }
     }
 

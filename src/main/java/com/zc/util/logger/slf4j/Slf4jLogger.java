@@ -1,13 +1,13 @@
 package com.zc.util.logger.slf4j;
 
-import com.zc.util.logger.Logger;
+import com.zc.util.logger.support.BaseLogger;
 import com.zc.util.logger.support.FailsafeLogger;
 import org.slf4j.Marker;
 import org.slf4j.spi.LocationAwareLogger;
 
 import java.io.Serializable;
 
-public class Slf4jLogger implements Logger, Serializable {
+public class Slf4jLogger extends FailsafeLogger implements Serializable {
 
     private static final long serialVersionUID = 5757680857072944206L;
 
@@ -44,11 +44,11 @@ public class Slf4jLogger implements Logger, Serializable {
     }
 
     @Override
-    public void trace(String msg, Throwable e) {
+    public void trace(Throwable e, String text) {
         if (this.locationAwareLogger != null) {
-            this.locationAwareLogger.log((Marker)null, FQCN, 0, msg, (Object[])null, e);
+            this.locationAwareLogger.log((Marker)null, FQCN, 0, text, (Object[])null, e);
         } else {
-            this.logger.trace(msg, e);
+            this.logger.trace(text, e);
         }
     }
 
@@ -71,11 +71,11 @@ public class Slf4jLogger implements Logger, Serializable {
     }
 
     @Override
-    public void debug(String msg, Throwable e) {
+    public void debug(Throwable e, String text) {
         if (this.locationAwareLogger != null) {
-            this.locationAwareLogger.log((Marker)null, FQCN, 10, msg, (Object[])null, e);
+            this.locationAwareLogger.log((Marker)null, FQCN, 10, text, (Object[])null, e);
         } else {
-            this.logger.debug(msg, e);
+            this.logger.debug(text, e);
         }
     }
 
@@ -98,11 +98,11 @@ public class Slf4jLogger implements Logger, Serializable {
     }
 
     @Override
-    public void info(String msg, Throwable e) {
+    public void info(Throwable e, String text) {
         if (this.locationAwareLogger != null) {
-            this.locationAwareLogger.log((Marker)null, FQCN, 20, msg, (Object[])null, e);
+            this.locationAwareLogger.log((Marker)null, FQCN, 20, text, (Object[])null, e);
         } else {
-            this.logger.info(msg, e);
+            this.logger.info(text, e);
         }
     }
 
@@ -125,11 +125,11 @@ public class Slf4jLogger implements Logger, Serializable {
     }
 
     @Override
-    public void warn(String msg, Throwable e) {
+    public void warn(Throwable e, String text) {
         if (this.locationAwareLogger != null) {
-            this.locationAwareLogger.log((Marker)null, FQCN, 30, msg, (Object[])null, e);
+            this.locationAwareLogger.log((Marker)null, FQCN, 30, text, (Object[])null, e);
         } else {
-            this.logger.warn(msg, e);
+            this.logger.warn(text, e);
         }
     }
 
@@ -152,11 +152,11 @@ public class Slf4jLogger implements Logger, Serializable {
     }
 
     @Override
-    public void error(String msg, Throwable e) {
+    public void error(Throwable e, String text) {
         if (this.locationAwareLogger != null) {
-            this.locationAwareLogger.log((Marker)null, FQCN, 40, msg, (Object[])null, e);
+            this.locationAwareLogger.log((Marker)null, FQCN, 40, text, (Object[])null, e);
         } else {
-            this.logger.error(msg, e);
+            this.logger.error(text, e);
         }
     }
 
@@ -184,4 +184,5 @@ public class Slf4jLogger implements Logger, Serializable {
     public boolean isErrorEnabled() {
         return this.logger.isErrorEnabled();
     }
+
 }

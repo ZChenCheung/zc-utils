@@ -20,6 +20,10 @@ public class PropertiesReader {
 	public PropertiesReader() {
 	}
 
+	public Map<String, String> getPropertiesMap() {
+		return new HashMap<>(propertiesMap);
+	}
+	
 	public List<String> getKeyList() {
 		List<String> result = new ArrayList<String>();
 		result.addAll(propertiesMap.keySet());

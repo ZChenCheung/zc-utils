@@ -1,9 +1,5 @@
 package com.zc.util.mail;
 
-/**
- * @author 曾晨
- * @date 2019/5/1
- */
 public interface EmailConstant {
     /**
      * qq邮件服务器

@@ -37,47 +37,44 @@ public class MailSender {
             addSender(mailSession);
         }
 
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                Message message = new MimeMessage(mailSession.getSession());
-                try {
-                    message.setFrom(new InternetAddress(mailSession.getSrcEmail()));
-                    // 设置接收人
-                    message.addRecipient(Message.RecipientType.TO,
-                            new InternetAddress(mailMessage.getTagEmail()));
-                    // 设置邮件主题
-                    message.setSubject(mailMessage.getSubJect());
-                    // 设置邮件内容
-                    message.setContent(mailMessage.getContent(), "text/html;charset=UTF-8");
-                    // 发送邮件
-                    Transport.send(message);
+        executor.execute(() -> {
+            Message message = new MimeMessage(mailSession.getSession());
+            try {
+                message.setFrom(new InternetAddress(mailSession.getSrcEmail()));
+                // 设置接收人
+                message.addRecipient(Message.RecipientType.TO,
+                        new InternetAddress(mailMessage.getTagEmail()));
+                // 设置邮件主题
+                message.setSubject(mailMessage.getSubJect());
+                // 设置邮件内容
+                message.setContent(mailMessage.getContent(), "text/html;charset=UTF-8");
+                // 发送邮件
+                Transport.send(message);
 
-                    if (LOGGER.isInfoEnabled()) {
-                        LOGGER.info("MailSender [thread:" + Thread.currentThread().getName()
-                                + "] send email["
-                                + "from: " + mailSession.getSrcEmail()
-                                + ", to: " + mailMessage.getTagEmail()
-                                + ", subject: " + mailMessage.getSubJect()
-                                + ", content: " + mailMessage.getContent()
-                                + "]");
-                    }
-                } catch (MessagingException e) {
-                    String msg = "MailSender send Exception, case: " + e.getMessage();
-
-                    if (LOGGER.isErrorEnabled()) {
-                        LOGGER.error(msg, e);
-                    }
-                    throw new IllegalStateException(msg, e);
+                if (LOGGER.isInfoEnabled()) {
+                    LOGGER.info("MailSender [thread:" + Thread.currentThread().getName()
+                            + "] send email["
+                            + "from: " + mailSession.getSrcEmail()
+                            + ", to: " + mailMessage.getTagEmail()
+                            + ", subject: " + mailMessage.getSubJect()
+                            + ", content: " + mailMessage.getContent()
+                            + "]");
                 }
+            } catch (MessagingException e) {
+                String msg = "MailSender send Exception, case: " + e.getMessage();
 
+                if (LOGGER.isErrorEnabled()) {
+                    LOGGER.error(msg, e);
+                }
+                throw new IllegalStateException(msg, e);
             }
+
         });
     }
 
     public void sendTo(MailMessage mailMessage) {
-        if (mailMessage == null) {
-            String msg = "MailSender sendTo(), mailMessage not defined!";
+        if (null == mailMessage) {
+            String msg = "MailSender sendTo(), mailMessage can not null!";
             if (LOGGER.isErrorEnabled()) {
                 LOGGER.error(msg);
             }

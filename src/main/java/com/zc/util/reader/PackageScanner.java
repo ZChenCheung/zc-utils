@@ -11,7 +11,22 @@ import java.util.jar.JarEntry;
 
 public abstract class PackageScanner {
 
+	/**
+	 * 拦截器，需要用户根据需求手动添加
+	 */
+	private FilterCondition condition;
+
 	public PackageScanner() {
+	}
+
+	public PackageScanner(FilterCondition condition) {
+		addFilterCondition(condition);
+	}
+
+	public PackageScanner addFilterCondition(FilterCondition condition) {
+		this.condition = condition;
+
+		return this;
 	}
 
 	public void scanPackage(Object object) {
@@ -43,12 +58,10 @@ public abstract class PackageScanner {
 					}
 				}
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
+		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-	}
+    }
 
 	/**
 	 * 回调函数
@@ -71,13 +84,9 @@ public abstract class PackageScanner {
 	}
 	
 	private void parse(File curFile, String packageName) {
-		File[] fileList = curFile.listFiles(new FileFilter() {
-			
-			@Override
-			public boolean accept(File pathname) {
-				return pathname.isDirectory() || pathname.getName().endsWith(".class");
-			}
-		});
+		File[] fileList = curFile.listFiles(pathname ->
+                pathname.isDirectory()
+                        || pathname.getName().endsWith(".class"));
 		
 		for (File file : fileList) {
 			String fileName = file.getName();
@@ -94,12 +103,27 @@ public abstract class PackageScanner {
 		try {
 			Class<?> clazz = Class.forName(className);
 			
-			if (!clazz.isPrimitive()) {
-				dealClass(clazz);
+			if (clazz.isPrimitive()
+					|| (this.condition != null
+					&& this.condition.filter(clazz))) {
+				return;
 			}
+
+			dealClass(clazz);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public interface FilterCondition {
+
+		/**
+		 * 拦截条件
+		 * @param clazz
+		 * @return
+		 */
+		boolean filter(Class<?> clazz);
+
+	}
+
 }

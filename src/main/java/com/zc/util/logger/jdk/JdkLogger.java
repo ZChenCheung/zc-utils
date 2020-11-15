@@ -1,10 +1,11 @@
 package com.zc.util.logger.jdk;
 
-import com.zc.util.logger.Logger;
+import com.zc.util.logger.support.BaseLogger;
+import com.zc.util.logger.support.FailsafeLogger;
 
 import java.util.logging.Level;
 
-public class JdkLogger implements Logger {
+public class JdkLogger extends FailsafeLogger {
     private final java.util.logging.Logger logger;
 
     public JdkLogger(java.util.logging.Logger logger) {
@@ -22,8 +23,8 @@ public class JdkLogger implements Logger {
     }
 
     @Override
-    public void trace(String msg, Throwable e) {
-        this.logger.log(Level.FINER, msg, e);
+    public void trace(Throwable e, String text) {
+        this.logger.log(Level.FINER, text, e);
     }
 
     @Override
@@ -37,8 +38,8 @@ public class JdkLogger implements Logger {
     }
 
     @Override
-    public void debug(String msg, Throwable e) {
-        this.logger.log(Level.FINE, msg, e);
+    public void debug(Throwable e, String text) {
+        this.logger.log(Level.FINE, text, e);
     }
 
     @Override
@@ -47,8 +48,8 @@ public class JdkLogger implements Logger {
     }
 
     @Override
-    public void info(String msg, Throwable e) {
-        this.logger.log(Level.INFO, msg, e);
+    public void info(Throwable e, String text) {
+        this.logger.log(Level.INFO, text, e);
     }
 
     @Override
@@ -57,8 +58,8 @@ public class JdkLogger implements Logger {
     }
 
     @Override
-    public void warn(String msg, Throwable e) {
-        this.logger.log(Level.WARNING, msg, e);
+    public void warn(Throwable e, String text) {
+        this.logger.log(Level.WARNING, text, e);
     }
 
     @Override
@@ -67,8 +68,8 @@ public class JdkLogger implements Logger {
     }
 
     @Override
-    public void error(String msg, Throwable e) {
-        this.logger.log(Level.SEVERE, msg, e);
+    public void error(Throwable e, String text) {
+        this.logger.log(Level.SEVERE, text, e);
     }
 
     @Override

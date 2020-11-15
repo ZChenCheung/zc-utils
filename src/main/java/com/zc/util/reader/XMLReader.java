@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,7 +18,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public abstract class XMLReader {
+public class XMLReader {
 
 	private static DocumentBuilder documentBuilder;
 	
@@ -30,52 +32,44 @@ public abstract class XMLReader {
 		}
 	}
 	
-	public XMLReader() {
+	private XMLReader() {
 	}
 
-	/**
-	 * 回调
-	 * @param element
-	 * @param index
-	 */
-	public abstract void dealElement(Element element, int index);
-	
-	public XMLReader parse(Element element) {
+	public static Consumer<BiConsumer<Element, Integer>> parse(Element element) {
 		NodeList childNodes = element.getChildNodes();
-		
-		for (int index = 0; index < childNodes.getLength(); index++) {
-			Node node = childNodes.item(index);
-			
-			if (node instanceof Element) {
-				dealElement(element, index);
+
+		return listener -> {
+			for (int index = 0; index < childNodes.getLength(); index++) {
+				Node node = childNodes.item(index);
+
+				if (node instanceof Element) {
+					listener.accept((Element) node, index);
+				}
 			}
-		}
-		
-		return this;
+		};
 	}
 	
-	public XMLReader parse(Element element, String tagname) {
+	public static Consumer<BiConsumer<Element, Integer>> parse(Element element, String tagname) {
 		NodeList nodeList = element.getElementsByTagName(tagname);
 		
-		for (int index = 0; index < nodeList.getLength(); index++) {
-			Element ele = (Element) nodeList.item(index);
-
-			dealElement(ele, index);
-		}
-		
-		return this;
+		return listener -> {
+            for (int index = 0; index < nodeList.getLength(); index++) {
+                Element ele = (Element) nodeList.item(index);
+                listener.accept(ele, index);
+            }
+        };
 	}
 	
-	public XMLReader parse(Document document, String tagname) {
+	public static Consumer<BiConsumer<Element, Integer>> parse(Document document, String tagname) {
 		NodeList nodeList = document.getElementsByTagName(tagname);
 		
-		for (int index = 0; index < nodeList.getLength(); index++) {
-			Element element = (Element) nodeList.item(index);
+        return listener -> {
+            for (int index = 0; index < nodeList.getLength(); index++) {
+                Element element = (Element) nodeList.item(index);
 
-			dealElement(element, index);
-		}
-		
-		return this;
+                listener.accept(element, index);
+            }
+        };
 	}
 	
 	public static Document document(File path) {
@@ -94,7 +88,7 @@ public abstract class XMLReader {
 			throw new FileNotFoundException("File[" + path + "] not found!");
 		}
 		
-		return is == null ? null: openDocument(is);
+		return openDocument(is);
 	}
 	
 	public static Document openDocument(InputStream is) {

@@ -1,6 +1,8 @@
 package com.zc.util.logger;
 
+import com.zc.util.logger.jcl.JclLoggerAdapter;
 import com.zc.util.logger.jdk.JdkLoggerAdapter;
+import com.zc.util.logger.log4j.Log4jLoggerAdapter;
 import com.zc.util.logger.slf4j.Slf4jLoggerAdapter;
 import com.zc.util.logger.support.FailsafeLogger;
 
@@ -42,11 +44,11 @@ public class LoggerFactory {
         return logger;
     }
 
-    public static Logger getLogger(String key) {
-        FailsafeLogger logger = (FailsafeLogger)LOGGERS.get(key);
+    public static Logger getLogger(String name) {
+        FailsafeLogger logger = (FailsafeLogger)LOGGERS.get(name);
         if (logger == null) {
-            LOGGERS.putIfAbsent(key, new FailsafeLogger(LOGGER_ADAPTER.getLogger(key)));
-            logger = (FailsafeLogger)LOGGERS.get(key);
+            LOGGERS.putIfAbsent(name, new FailsafeLogger(LOGGER_ADAPTER.getLogger(name)));
+            logger = (FailsafeLogger)LOGGERS.get(name);
         }
 
         return logger;
@@ -63,20 +65,28 @@ public class LoggerFactory {
     static {
         String logger = System.getProperty("zc.conf.logger");
         if ("slf4j".equals(logger)) {
-            setLoggerAdapter((LoggerAdapter)(new Slf4jLoggerAdapter()));
+            setLoggerAdapter((LoggerAdapter) (new Slf4jLoggerAdapter()));
         } else if ("log4j".equals(logger)) {
-            // TODO
+            setLoggerAdapter((LoggerAdapter) new Log4jLoggerAdapter());
         } else if ("jdk".equals(logger)) {
-            setLoggerAdapter((LoggerAdapter)(new JdkLoggerAdapter()));
+            setLoggerAdapter((LoggerAdapter) (new JdkLoggerAdapter()));
+        } else if ("jcl".equals(logger)) {
+            setLoggerAdapter((LoggerAdapter)(new JclLoggerAdapter()));
         } else {
             try {
-                setLoggerAdapter((LoggerAdapter)(new Slf4jLoggerAdapter()));
-            } catch (Throwable var6) {
-                // TODO
-                setLoggerAdapter((LoggerAdapter)(new JdkLoggerAdapter()));
+                setLoggerAdapter((LoggerAdapter) (new Log4jLoggerAdapter()));
+            } catch (Throwable throwable0) {
+                try {
+                    setLoggerAdapter((LoggerAdapter) (new Slf4jLoggerAdapter()));
+                } catch (Throwable throwable1) {
+                    try {
+                        setLoggerAdapter((LoggerAdapter)(new JclLoggerAdapter()));
+                    } catch (Throwable var4) {
+                        setLoggerAdapter((LoggerAdapter)(new JdkLoggerAdapter()));
+                    }
+                }
             }
         }
-
     }
 
 }

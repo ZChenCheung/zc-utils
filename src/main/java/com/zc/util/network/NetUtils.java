@@ -10,9 +10,9 @@ import java.util.regex.Pattern;
 
 public class NetUtils {
 
-    public static final String LOCALHOST = "127.0.0.1";
+    public static final String LOCAL_HOST = "127.0.0.1";
 
-    public static final String ANYHOST = "0.0.0.0";
+    public static final String ANY_HOST = "0.0.0.0";
 
     private static final Random RANDOM = new Random(System.currentTimeMillis());
 
@@ -27,15 +27,15 @@ public class NetUtils {
     private NetUtils() {}
 
     public static int getRandomPort() {
-        return 30000 + RANDOM.nextInt(10000);
+        return MIN_PORT + RANDOM.nextInt(MAX_PORT - MIN_PORT + 1);
     }
 
     private static boolean isValidAddress(InetAddress inetAddress) {
         if (inetAddress != null && !inetAddress.isLoopbackAddress()) {
             String name = inetAddress.getHostAddress();
             return name != null
-                    && !ANYHOST.equals(name)
-                    && !LOCALHOST.equals(name)
+                    && !ANY_HOST.equals(name)
+                    && !LOCAL_HOST.equals(name)
                     && IP_PATTERN.matcher(name).matches();
         } else {
             return false;

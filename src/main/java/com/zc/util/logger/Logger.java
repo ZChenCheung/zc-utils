@@ -1,35 +1,55 @@
 package com.zc.util.logger;
 
 public interface Logger {
-    void trace(String msg);
+    void trace(String text);
+
+    void trace(String text, Object... args);
 
     void trace(Throwable e);
 
-    void trace(String msg, Throwable e);
+    void trace(Throwable e, String text);
 
-    void debug(String msg);
+    void trace(Throwable e, String text, Object... args);
+
+    void debug(String text);
+
+    void debug(String text, Object... args);
 
     void debug(Throwable e);
 
-    void debug(String msg, Throwable e);
+    void debug(Throwable e, String text);
 
-    void info(String msg);
+    void debug(Throwable e, String text, Object... args);
+
+    void info(String text);
+
+    void info(String text, Object... args);
 
     void info(Throwable e);
 
-    void info(String msg, Throwable e);
+    void info(Throwable e, String text);
 
-    void warn(String msg);
+    void info(Throwable e, String text, Object... args);
+
+    void warn(String text);
+
+    void warn(String text, Object... args);
 
     void warn(Throwable e);
 
-    void warn(String msg, Throwable e);
+    void warn(Throwable e, String text);
 
-    void error(String msg);
+    void warn(Throwable e, String text, Object... args);
+
+    void error(String text);
+
+    void error(String text, Object... args);
 
     void error(Throwable e);
 
-    void error(String msg, Throwable e);
+    void error(Throwable e, String text);
+
+    void error(Throwable e, String text, Object... args);
 
     boolean isTraceEnabled();
 

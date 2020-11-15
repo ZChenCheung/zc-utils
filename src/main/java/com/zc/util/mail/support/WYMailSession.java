@@ -5,10 +5,6 @@ import com.zc.util.mail.EmailConstant;
 
 import java.util.Properties;
 
-/**
- * @author 曾晨
- * @date 2019/5/1
- */
 public class WYMailSession extends MailSession {
 
     public WYMailSession(String srcEmail, String authCode) {

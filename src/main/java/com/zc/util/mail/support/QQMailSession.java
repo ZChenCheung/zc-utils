@@ -1,17 +1,17 @@
 package com.zc.util.mail.support;
 
 import com.sun.mail.util.MailSSLSocketFactory;
+import com.zc.util.logger.Logger;
+import com.zc.util.logger.LoggerFactory;
 import com.zc.util.mail.MailSession;
 import com.zc.util.mail.EmailConstant;
 
 import java.security.GeneralSecurityException;
 import java.util.Properties;
 
-/**
- * @author 曾晨
- * @date 2019/5/1
- */
 public class QQMailSession extends MailSession {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(QQMailSession.class);
 
     public QQMailSession(String srcEmail, String authCode) {
         super(srcEmail, authCode);
@@ -29,6 +29,10 @@ public class QQMailSession extends MailSession {
 
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
+
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("QQMailSession.doCreateSession error, case:{}", e.getMessage(), e);
+            }
         }
 
     }

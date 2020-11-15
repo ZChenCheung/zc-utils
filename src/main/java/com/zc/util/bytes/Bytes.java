@@ -4,7 +4,7 @@ public class Bytes {
 
 	public static final String hexString = "0123456789ABCDEF";
 	
-	public static int getMinBinLessValue(int value) {
+	public static int getMaxBinLessValue(int value) {
 		int resutl = value;
 		
 		resutl |= resutl >>> 1;
@@ -37,7 +37,7 @@ public class Bytes {
 			return bytes;
 		}
 
-		bytes[offset + 0] = (byte) (value & 0xFF);
+		bytes[offset] = (byte) (value & 0xFF);
 		bytes[offset + 1] = (byte) ((value >> 8) & 0xFF);
 		bytes[offset + 2] = (byte) ((value >> 16) & 0xFF);
 		bytes[offset + 3] = (byte) ((value >> 24) & 0xFF);
@@ -54,20 +54,20 @@ public class Bytes {
 	}
 	
 	public static long byteToLong(byte[] bytes, int offset) {
-		long result = 0;
+		long result = 0L;
 		
 		if (bytes == null || bytes.length < 8 + offset) {
 			return result;
 		}
 
-		result = ((bytes[0 + offset] & 0x00000000000000FFL)
-				| ((bytes[1 + offset] << 8 )  & 0x000000000000FF00L)
-				| ((bytes[2 + offset] << 16)  & 0x0000000000FF0000L)
-				| ((bytes[3 + offset] << 24)  & 0x00000000FF000000L)
-				| ((bytes[4 + offset] << 32)  & 0x000000FF00000000L)
-				| ((bytes[5 + offset] << 40)  & 0x0000FF0000000000L)
-				| ((bytes[6 + offset] << 48)  & 0x00FF000000000000L)
-				| ((bytes[7 + offset] << 56)  & 0xFF00000000000000L));
+		result |= (bytes[offset] & 0xFFL)
+				| ((bytes[1 + offset] & 0xFFL) << 8)
+				| ((bytes[2 + offset] & 0xFFL) << 16)
+				| ((bytes[3 + offset] & 0xFFL) << 24)
+				| ((bytes[4 + offset] & 0xFFL) << 32)
+				| ((bytes[5 + offset] & 0xFFL) << 40)
+				| ((bytes[6 + offset] & 0xFFL) << 48)
+				| ((bytes[7 + offset] & 0xFFL) << 56);
 
 		return result;
 	}
@@ -79,10 +79,10 @@ public class Bytes {
 			return result;
 		}
 		
-		result = (bytes[0 + offset] & 0xFF)
-				| ((bytes[1 + offset] << 8)  & 0x0000FF00)
-				| ((bytes[2 + offset] << 16)  & 0x00FF0000)
-				| ((bytes[3 + offset] << 24)  & 0xFF000000);
+		result = (bytes[offset] & 0xFF)
+				| ((bytes[1 + offset] & 0xFF) << 8)
+				| ((bytes[2 + offset] & 0xFF) << 16)
+				| ((bytes[3 + offset] & 0xFF) << 24);
 		
 		return result;
 	}
@@ -96,7 +96,7 @@ public class Bytes {
 			return bytes;
 		}
 		
-		bytes[offset + 0] = (byte) (value & 0xFF);
+		bytes[offset] = (byte) (value & 0xFF);
 		bytes[offset + 1] = (byte) ((value >> 8) & 0xFF);
 		bytes[offset + 2] = (byte) ((value >> 16) & 0xFF);
 		bytes[offset + 3] = (byte) ((value >> 24) & 0xFF);
